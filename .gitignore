@@ -1,0 +1,8 @@
+# neovim stuff
+lazy-lock.json
+nvim_pyenv/
+
+# generate dirs
+dlv/
+go/
+nvm/
