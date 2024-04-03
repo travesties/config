@@ -1,6 +1,7 @@
 #!/bin/bash
 INSTALL_PATH=$PWD
 
+echo
 echo "Let's setup your environment!"
 
 sudo apt-get update && sudo apt-get upgrade
@@ -27,6 +28,7 @@ fi
 [ -n "$SSH_AUTH_SOCK" ] || eval "$(ssh-agent)"
 ssh-add $HOME/.ssh/"id_$ghuser"
 
+echo
 cat $HOME/.ssh/"id_$ghuser".pub
 echo "Have you added the public key to your GitHub account? (y/n) "
 while true; do
@@ -72,6 +74,7 @@ sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip rip
 
 ### FONTS
 if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
+	echo
 	echo "########## Installing Hack Nerd Font ##########"
 	curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
 	unzip Hack.zip -d Hack
@@ -84,6 +87,7 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 fi
 
 ### GO
+echo
 echo "########## Installing Golang ##########"
 rm -rf "$HOME/.local/go"
 curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
@@ -94,6 +98,7 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 ln -sTf "$GOBIN/dlv" "$XDG_BIN_HOME/dlv"
 
 ### NODE
+echo
 echo "########## Installing Node.js and NVM ##########"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source .bashrc
@@ -101,12 +106,14 @@ nvm install --lts
 
 ### cheat.sh
 if [ ! -f $XDG_BIN_HOME/cht.sh ]; then
+	echo
 	echo "########## Installing cheat.sh ##########"
 	curl -s https://cht.sh/:cht.sh | tee $XDG_BIN_HOME/cht.sh && chmod +x $XDG_BIN_HOME/cht.sh
 fi
 
 ### lazygit
 if [ ! -f $XDG_BIN_HOM/lazygit ]; then
+	echo
 	echo "########## Installing Lazygit ##########"
 	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 	curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -117,6 +124,7 @@ fi
 
 ### NEOVIM
 if [ ! -d "$XDG_OPT_HOME/nvim-linux64" ]; then
+	echo
 	echo "########## Installing Neovim ##########"
 	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 	rm -rf $XDG_OPT_HOME/nvim-linux64
@@ -137,4 +145,7 @@ fi
 
 source .bashrc
 cd $INSTALL_PATH
+
+echo
 echo "########## Installation Complete ##########"
+echo "You may need to source .bashrc to get all the new commands."
