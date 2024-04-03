@@ -113,6 +113,8 @@ if ! shopt -oq posix; then
 fi
 
 ### Environment Variables ###
+export VISUAL=nvim
+export EDITOR=nvim
 
 # XDG Base Directory Specification
 # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
