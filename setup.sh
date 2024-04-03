@@ -14,7 +14,7 @@ ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 ln -sTf "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
 
 # Install all necessary packages for workflow setup
-apt install man-db curl xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
+apt install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
 
 ### FONTS
 echo "########## Installing Hack Nerd Font ##########"
