@@ -149,3 +149,4 @@ cd $INSTALL_PATH
 echo
 echo "########## Installation Complete ##########"
 echo "You may need to source .bashrc to get all the new commands."
+echo "You may also need to add the generated ssh key to the ssh-agent."
