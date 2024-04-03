@@ -88,8 +88,8 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
+alias ll='ls -l'
+alias la='ls -A'
 #alias l='ls -CF'
 
 # Alias definitions.
@@ -119,6 +119,10 @@ fi
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_BIN_HOME="$HOME/.local/bin"
+export XDG_OPT_HOME="$HOME/.local/opt"
+
+export PATH="$PATH:$XDG_BIN_HOME:$XDG_OPT_HOME"
 
 # Code Repositories
 export REPOS="$HOME/repos"
@@ -128,7 +132,7 @@ export CONFIG="$GHREPOS/config"
 export SCRIPTS="$CONFIG/scripts"
 
 # Neovim
-export PATH="$PATH:/opt/nvim-linux64/bin"
+export PATH="$PATH:$XDG_OPT_HOME/nvim-linux64/bin"
 
 # Golang
 export PATH="$PATH:/usr/local/go/bin"
