@@ -6,3 +6,6 @@ nvim_pyenv/
 dlv/
 go/
 nvm/
+
+# tpm and plugins
+tmux/plugins/

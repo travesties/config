@@ -4,7 +4,7 @@ INSTALL_PATH=$PWD
 echo
 echo "Let's setup your environment!"
 
-sudo apt-get update && sudo apt-get upgrade
+sudo apt -y update && sudo apt -y upgrade
 sudo apt -y install ssh git vim curl
 
 read -p "Enter your GitHub username: " ghuser
@@ -68,11 +68,26 @@ mkdir -p "$BASH_COMPLETIONS_DIR"
 
 # Create symbolic links between this repo and home
 ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
-ln -sTf "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
-ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
 
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
+
+### Tmux
+sudo apt -y install tmux
+ln -sTf "$PWD/tmux" "$XDG_CONFIG_HOME/tmux"
+
+# Install tmp (tmux plugin manager)
+# tmux/plugins dir is in the gitignore list
+if [ ! -d "$XDG_CONFIG_HOME/tmux/plugins/tpm" ]; then
+	git clone https://github.com/tmux-plugins/tpm $XDG_CONFIG_HOME/tmux/plugins/tpm
+
+	# Install tpm plugins by starting a detached server and running the install script
+	tmux start-server && \
+		tmux new-session -d && \
+		sleep 1 && \
+		$XDG_CONFIG_HOME/tmux/plugins/tpm/scripts/install_plugins.sh && \
+		tmux kill-server
+fi
 
 ### FONTS
 if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
@@ -128,6 +143,8 @@ if [ ! -f $XDG_BIN_HOME/lazygit ]; then
 fi
 
 ### NEOVIM
+ln -sTf "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
+
 if [ ! -d "$XDG_OPT_HOME/nvim-linux64" ]; then
 	echo
 	echo "########## Installing Neovim ##########"
@@ -149,6 +166,8 @@ if [ ! -d "nvim/nvim_pyenv" ]; then
 fi
 
 ### Alacritty
+ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
+
 if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	mkdir -p $REPOS/github.com/alacritty
 	cd $REPOS/github.com/alacritty
@@ -162,7 +181,7 @@ if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	fi
 	
 	# install dependencies
-	sudo apt install gzip scdoc cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+	sudo apt -y install gzip scdoc cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 	
 	# download Alacritty source
 	git clone https://github.com/alacritty/alacritty.git
