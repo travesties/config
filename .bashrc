@@ -139,3 +139,10 @@ export GOBIN="$GOPATH/bin"
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+
+# Alacritty
+export BASH_COMPLETIONS_DIR="$HOME/.bash_completions"
+if [ -f "$BASH_COMPLETIONS_DIR/alacritty" ]; then
+    source "$HOME/.bash_completions/alacritty"
+fi

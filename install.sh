@@ -64,10 +64,12 @@ mkdir -p "$XDG_BIN_HOME"
 mkdir -p "$XDG_OPT_HOME"
 mkdir -p "$GOPATH"
 mkdir -p "$GOBIN"
+mkdir -p "$BASH_COMPLETIONS_DIR"
 
 # Create symbolic links between this repo and home
 ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 ln -sTf "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
+ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
 
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
@@ -87,22 +89,25 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 fi
 
 ### GO
-echo
-echo "########## Installing Golang ##########"
-rm -rf "$HOME/.local/go"
-curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
-tar -C "$HOME/.local" -xzf go1.22.1.linux-amd64.tar.gz
-rm -f go1.22.1.linux-amd64.tar.gz
-
-go install github.com/go-delve/delve/cmd/dlv@latest
-ln -sTf "$GOBIN/dlv" "$XDG_BIN_HOME/dlv"
+if [ ! -d "$HOME/.local/go" ]; then
+	echo
+	echo "########## Installing Golang ##########"
+	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+	tar -C "$HOME/.local" -xzf go1.22.1.linux-amd64.tar.gz
+	rm -f go1.22.1.linux-amd64.tar.gz
+	
+	go install github.com/go-delve/delve/cmd/dlv@latest
+	ln -sTf "$GOBIN/dlv" "$XDG_BIN_HOME/dlv"
+fi
 
 ### NODE
-echo
-echo "########## Installing Node.js and NVM ##########"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source .bashrc
-nvm install --lts
+if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
+	echo
+	echo "########## Installing Node.js and NVM ##########"
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+	source .bashrc
+	nvm install --lts
+fi
 
 ### cheat.sh
 if [ ! -f $XDG_BIN_HOME/cht.sh ]; then
@@ -112,7 +117,7 @@ if [ ! -f $XDG_BIN_HOME/cht.sh ]; then
 fi
 
 ### lazygit
-if [ ! -f $XDG_BIN_HOM/lazygit ]; then
+if [ ! -f $XDG_BIN_HOME/lazygit ]; then
 	echo
 	echo "########## Installing Lazygit ##########"
 	LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -143,10 +148,54 @@ if [ ! -d "nvim/nvim_pyenv" ]; then
 	cd ..
 fi
 
+### Alacritty
+if [ ! -d "$REPOS/github.com/alacritty" ]; then
+	mkdir -p $REPOS/github.com/alacritty
+	cd $REPOS/github.com/alacritty
+
+	# install rust and cargo
+	if ! command -v rustup &> /dev/null; then
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	else
+		rustup override set stable
+		rustup update stable
+	fi
+	
+	# install dependencies
+	sudo apt install gzip scdoc cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+	
+	# download Alacritty source
+	git clone https://github.com/alacritty/alacritty.git
+	cd alacritty
+	
+	# build release
+	cargo build --release
+	
+	# Create desktop entry (NOTE: you will need to log out and log in to find the start up menu option)
+	cp target/release/alacritty $XDG_BIN_HOME
+	mkdir -p $XDG_DATA_HOME/pixmaps
+	cp extra/logo/alacritty-term.svg $XDG_DATA_HOME/pixmaps/Alacritty.svg
+	sudo desktop-file-install extra/linux/Alacritty.desktop
+	sudo update-desktop-database
+	
+	# install man pages
+	mkdir -p $XDG_DATA_HOME/man/man1
+	mkdir -p $XDG_DATA_HOME/man/man5
+	
+	scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty.1.gz > /dev/null
+	scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty-msg.1.gz > /dev/null
+	scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty.5.gz > /dev/null
+	scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty-bindings.5.gz > /dev/null
+	
+	# install bash completions
+	cp extra/completions/alacritty.bash $BASH_COMPLETIONS_DIR/alacritty
+fi
+
 source .bashrc
 cd $INSTALL_PATH
 
 echo
 echo "########## Installation Complete ##########"
 echo "You may need to source .bashrc to get all the new commands."
-echo "You may also need to add the generated ssh key to the ssh-agent."
+echo "You may need to add the generated ssh key to the ssh-agent."
+echo "You may need to logout and login to see Alacritty in the start menu."
