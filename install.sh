@@ -72,6 +72,15 @@ ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
 
+### Bat (https://github.com/sharkdp/bat)
+sudo apt -y install bat
+
+# Due to name conflict, bat may be installed as batcat.
+# If this happens, create a bat symlink
+if command -v batcat &> /dev/null; then
+	ln -sf /usr/bin/batcat $XDG_BIN_HOME/bat
+end
+
 ### Tmux
 sudo apt -y install tmux
 ln -sTf "$PWD/tmux" "$XDG_CONFIG_HOME/tmux"
