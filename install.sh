@@ -113,7 +113,7 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 fi
 
 ### GO
-if [ ! -d "$GOPATH" ]; then
+if [ ! -d "$GOINSTALL" ]; then
 	echo
 	echo "########## Installing Golang ##########"
 	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
