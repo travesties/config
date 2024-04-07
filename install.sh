@@ -113,7 +113,7 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 fi
 
 ### GO
-if [ ! -d "$HOME/.local/go" ]; then
+if [ ! -d "$GOPATH" ]; then
 	echo
 	echo "########## Installing Golang ##########"
 	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
@@ -121,7 +121,6 @@ if [ ! -d "$HOME/.local/go" ]; then
 	rm -f go1.22.1.linux-amd64.tar.gz
 	
 	go install github.com/go-delve/delve/cmd/dlv@latest
-	ln -sTf "$GOBIN/dlv" "$XDG_BIN_HOME/dlv"
 fi
 
 ### NODE

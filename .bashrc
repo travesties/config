@@ -133,9 +133,9 @@ export SCRIPTS="$CONFIG/scripts"
 export PATH="$PATH:$XDG_OPT_HOME/nvim-linux64/bin"
 
 # Golang
-export PATH="$PATH:$HOME/.local/go/bin"
-export GOPATH="$HOME/go"
+export GOPATH="$HOME/.local/go"
 export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
 
 # Node Version Manager (nvm)
 export NVM_DIR="$HOME/.config/nvm"
