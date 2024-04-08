@@ -81,6 +81,9 @@ if command -v batcat &> /dev/null; then
 	ln -sf /usr/bin/batcat $XDG_BIN_HOME/bat
 end
 
+### Zet
+ln -sTf "$PWD/zet" "$XDG_CONFIG_HOME/zet"
+
 ### Tmux
 sudo apt -y install tmux
 ln -sTf "$PWD/tmux" "$XDG_CONFIG_HOME/tmux"
