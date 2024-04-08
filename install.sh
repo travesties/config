@@ -176,6 +176,13 @@ if [ ! -d "nvim/nvim_pyenv" ]; then
 	cd ..
 fi
 
+# install marksman markdown lsp
+if [ ! command -v marksman &> /dev/null ]; then
+	curl -o marksman https://github.com/artempyanykh/marksman/releases/download/latest/marksman-linux-arm64
+	chmod +x marksman
+	mv marksman $XDG_BIN_HOME/marksman
+fi
+
 ### Alacritty
 ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
 
