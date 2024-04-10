@@ -85,7 +85,7 @@ end
 ln -sTf "$PWD/zet" "$XDG_CONFIG_HOME/zet"
 
 ### Tmux
-sudo apt -y install tmux
+sudo apt -y install tmux libnotify-bin
 ln -sTf "$PWD/tmux" "$XDG_CONFIG_HOME/tmux"
 
 # Install tmp (tmux plugin manager)
