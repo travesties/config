@@ -41,10 +41,16 @@ while true; do
 	fi
 done
 
-# Create repo structre and clone config repo
+# Create github.com repository structure and clone all necessary repos
 if [ ! -d $HOME/repos/github.com/$ghuser ]; then
 	mkdir -p $HOME/repos/github.com/$ghuser
+	
+	# dotfiles config repo
 	git clone git@github.com:$ghuser/config.git $HOME/repos/github.com/$ghuser/config
+	# zettelkasten notes repo
+	git clone git@github.com:$ghuser/zettelkasten.git $HOME/repos/github.com/$ghuser/zettelkasten
+	# zet cli utility for creating zettels
+	git clone git@github.com:$ghuser/zet.git $HOME/repos/github.com/$ghuser/zet
 fi
 
 # Run config setup script
@@ -72,6 +78,26 @@ ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
 
+### GO
+if [ ! -d "$GOINSTALL" ]; then
+	echo
+	echo "########## Installing Golang ##########"
+	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+	tar -C "$HOME/.local" -xzf go1.22.1.linux-amd64.tar.gz
+	rm -f go1.22.1.linux-amd64.tar.gz
+	
+	go install github.com/go-delve/delve/cmd/dlv@latest
+fi
+
+### NODE
+if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
+	echo
+	echo "########## Installing Node.js and NVM ##########"
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+	source .bashrc
+	nvm install --lts
+fi
+
 ### Bat (https://github.com/sharkdp/bat)
 sudo apt -y install bat
 
@@ -83,6 +109,12 @@ end
 
 ### Zet
 ln -sTf "$PWD/zet" "$XDG_CONFIG_HOME/zet"
+
+# TODO: use go install github.com/.../zet@latest once a release is available
+currdur=$PWD
+cd $HOME/repos/github.com/$ghuser/zet
+go install
+cd $currdur
 
 ### Tmux
 sudo apt -y install tmux libnotify-bin
@@ -113,26 +145,6 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 	fc-cache -f -v
 	rm -f Hack.zip
 	rm -rf Hack
-fi
-
-### GO
-if [ ! -d "$GOINSTALL" ]; then
-	echo
-	echo "########## Installing Golang ##########"
-	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
-	tar -C "$HOME/.local" -xzf go1.22.1.linux-amd64.tar.gz
-	rm -f go1.22.1.linux-amd64.tar.gz
-	
-	go install github.com/go-delve/delve/cmd/dlv@latest
-fi
-
-### NODE
-if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
-	echo
-	echo "########## Installing Node.js and NVM ##########"
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-	source .bashrc
-	nvm install --lts
 fi
 
 ### cheat.sh
