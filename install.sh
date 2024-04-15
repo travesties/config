@@ -105,7 +105,7 @@ sudo apt -y install bat
 # If this happens, create a bat symlink
 if command -v batcat &> /dev/null; then
 	ln -sf /usr/bin/batcat $XDG_BIN_HOME/bat
-end
+fi
 
 ### Zet
 ln -sTf "$PWD/zet" "$XDG_CONFIG_HOME/zet"
