@@ -223,8 +223,7 @@ if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	
 	# Create desktop entry (NOTE: you will need to log out and log in to find the start up menu option)
 	cp target/release/alacritty $XDG_BIN_HOME
-	mkdir -p $XDG_DATA_HOME/pixmaps
-	cp extra/logo/alacritty-term.svg $XDG_DATA_HOME/pixmaps/Alacritty.svg
+	sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
 	sudo desktop-file-install extra/linux/Alacritty.desktop
 	sudo update-desktop-database
 	
