@@ -205,6 +205,7 @@ if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	# install rust and cargo
 	if ! command -v rustup &> /dev/null; then
 		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  		source $HOME/.bashrc
 	else
 		rustup override set stable
 		rustup update stable
