@@ -12,6 +12,7 @@ read -p "Enter your GitHub email: " ghemail
 
 git config --global user.name "$ghuser"
 git config --global user.email "$ghemail"
+git config --global init.defaultBranch main
 
 mkdir -p $HOME/.ssh && touch $HOME/.ssh/known_hosts
 
