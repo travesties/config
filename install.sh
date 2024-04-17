@@ -90,6 +90,12 @@ if [ ! -d "$GOINSTALL" ]; then
 	go install github.com/go-delve/delve/cmd/dlv@latest
 fi
 
+### i3 window manager
+sudo apt -y install i3
+ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
+
+chmod +x $PWD/i3/scripts/*
+
 ### NODE
 if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
 	echo
