@@ -22,15 +22,15 @@ if [ ! -s $HOME/.ssh/known_hosts ]; then
 fi
 
 # Create ssh key if none exist
-if [ ! -s $HOME/.ssh/"id_$ghuser" ]; then
-	ssh-keygen -t ed25519 -C $ghemail -f $HOME/.ssh/"id_$ghuser"
+if [ ! -s $HOME/.ssh/id_ed25519 ]; then
+	ssh-keygen -t ed25519 -C $ghemail
 fi
 
 [ -n "$SSH_AUTH_SOCK" ] || eval "$(ssh-agent)"
-ssh-add $HOME/.ssh/"id_$ghuser"
+ssh-add $HOME/.ssh/id_ed25519
 
 echo
-cat $HOME/.ssh/"id_$ghuser".pub
+cat $HOME/.ssh/id_ed25519.pub
 echo "Have you added the public key to your GitHub account? (y/n) "
 while true; do
 	read -n 1 key
