@@ -91,7 +91,7 @@ if [ ! -d "$GOINSTALL" ]; then
 fi
 
 ### i3 window manager
-sudo apt -y install i3
+sudo apt -y install i3 nitrogen
 ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
 
 chmod +x $PWD/i3/scripts/*
