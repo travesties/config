@@ -222,7 +222,7 @@ bindsym $mod+z mode "$mode_system"
 #        status_command i3status
 #        mode hide
 #}
-exec_always $XDG_CONFIG_HOME/polybar/launch.sh --docky &
+exec_always --no-startup-id ~/.config/polybar/launch.sh --docky
 
 # Pixelized lock screen
 set $i3lockwall sh ~/.config/i3/scripts/lock.sh
