@@ -35,7 +35,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Atuomatically start up picom
-exec --no-startup-id picom
+exec_always --no-startup-id picom
 
 # Automatically set up wallpapers on startup/login
 exec --no-startup-id nitrogen --restore
