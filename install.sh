@@ -94,8 +94,11 @@ fi
 sudo apt -y install i3 nitrogen picom
 ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
 ln -sTf "$PWD/picom" "$XDG_CONFIG_HOME/picom"
+ln -sTf "$PWD/nitrogen" "$XDG_CONFIG_HOME/nitrogen"
 
 chmod +x $PWD/i3/scripts/*
+
+cp -r $PWD/wallpapers/* $HOME/Pictures/Wallpapers/
 
 ### NODE
 if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
