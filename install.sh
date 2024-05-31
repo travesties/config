@@ -91,8 +91,9 @@ if [ ! -d "$GOINSTALL" ]; then
 fi
 
 ### i3 window manager
-sudo apt -y install i3 nitrogen
+sudo apt -y install i3 nitrogen picom
 ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
+ln -sTf "$PWD/picom" "$XDG_CONFIG_HOME/picom"
 
 chmod +x $PWD/i3/scripts/*
 
