@@ -48,10 +48,8 @@ if [ ! -d $HOME/repos/github.com/$ghuser ]; then
 	
 	# dotfiles config repo
 	git clone git@github.com:$ghuser/config.git $HOME/repos/github.com/$ghuser/config
-	# zettelkasten notes repo
-	git clone git@github.com:$ghuser/zettelkasten.git $HOME/repos/github.com/$ghuser/zettelkasten
-	# zet cli utility for creating zettels
-	git clone git@github.com:$ghuser/zet.git $HOME/repos/github.com/$ghuser/zet
+	# obsidian vaults
+	git clone git@github.com:$ghuser/obsidian.git $HOME/repos/github/$ghuser/obsidian
 fi
 
 # Run config setup script
@@ -118,15 +116,6 @@ sudo apt -y install bat
 if command -v batcat &> /dev/null; then
 	ln -sf /usr/bin/batcat $XDG_BIN_HOME/bat
 fi
-
-### Zet
-ln -sTf "$PWD/zet" "$XDG_CONFIG_HOME/zet"
-
-# TODO: use go install github.com/.../zet@latest once a release is available
-currdur=$PWD
-cd $HOME/repos/github.com/$ghuser/zet
-go install
-cd $currdur
 
 ### Tmux
 sudo apt -y install tmux libnotify-bin
@@ -205,6 +194,15 @@ if [ ! command -v marksman &> /dev/null ]; then
 	curl -o marksman https://github.com/artempyanykh/marksman/releases/download/latest/marksman-linux-arm64
 	chmod +x marksman
 	mv marksman $XDG_BIN_HOME/marksman
+fi
+
+### Obsidian
+if [ ! command -v obsidian &> /dev/null ]; then
+	echo
+	echo "########## Installing Obsidian ##########"
+	curl -LO obsidian https://github.com/obsidianmd/obsidian-releases/releases/download/v1.6.3/Obsidian-1.6.3-arm64.AppImage
+	chmod +x obsidian
+	mv obsidian $XDG_BIN_HOME/obsidian
 fi
 
 ### Alacritty
