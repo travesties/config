@@ -67,6 +67,9 @@ bindsym $mod+Return exec alacritty
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# Enable screen snips
+bindsym --release $mod+Shift+s exec scrot -f -o -s -z -F ~/Documents/screenshots/screenshot.png && xclip -selection clipboard -t image/png -i ~/Documents/screenshots/screenshot.png
+
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+d exec rofi -no-config -no-lazy-grab -show run -modi run -theme ~/.config/rofi/launcher.rasi
