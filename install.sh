@@ -88,6 +88,20 @@ if [ ! -d "$GOINSTALL" ]; then
 	go install github.com/go-delve/delve/cmd/dlv@latest
 fi
 
+### Flatpak
+if command -v flatpak &> /dev/null; then
+	echo
+	echo "########## Installing Flatpak ##########"
+	sudo apt install -y flatpak
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+fi
+
+if ! $(flatpak list --columns=name | grep 'GIMP'); then
+	echo
+	echo "===> Installing GIMP flatpak..."
+	flatpak install -y https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref
+fi
+
 ### i3 window manager
 sudo apt -y install i3 nitrogen picom rofi pulseaudio
 ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
