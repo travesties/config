@@ -168,6 +168,30 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# Configure multiple monitors
+set $primaryMonitor DP-4
+set $secondaryMonitor DP-2
+
+exec --no-startup-id xrandr --auto --output $secondaryMonitor --above $primaryMonitor
+
+# bind workspaces to specific monitors
+workspace $ws1 output primary
+workspace $ws2 output primary
+workspace $ws3 output nonprimary
+workspace $ws4 output nonprimary
+
+# bind clients to workspaces
+assign [class="Alacritty"] $ws1
+assign [class="Brave-browser"] $ws2
+assign [class="obsidian"] $ws3
+assign [class="Gimp-2.10"] $ws4
+
+# open common apps on startup
+exec alacritty
+exec brave-browser
+exec obsidian
+exec flatpak run org.gimp.GIMP
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
