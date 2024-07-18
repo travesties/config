@@ -192,6 +192,11 @@ exec brave-browser
 exec obsidian
 exec flatpak run org.gimp.GIMP
 
+# bind wacom one drawing surface to nonprimary monitor with Gimp
+set $wacomStylus "Wacom One by Wacom S Pen stylus"
+exec xsetwacom --set $wacomStylus MapToOutput HEAD-1
+exec xsetwacom --set $wacomStylus Rotate half
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
