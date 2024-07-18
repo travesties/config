@@ -149,3 +149,7 @@ export BASH_COMPLETIONS_DIR="$HOME/.bash_completions"
 if [ -f "$BASH_COMPLETIONS_DIR/alacritty" ]; then
     source "$HOME/.bash_completions/alacritty"
 fi
+
+# Ruby & Gems
+export GEM_HOME="$HOME/.local/gems"
+export PATH="$PATH:$GEM_HOME/bin"
