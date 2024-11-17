@@ -91,6 +91,27 @@ return {
     require('dap-go').setup()
     require('dap-python').setup(vim.g.python3_host_prog)
 
+    table.insert(require('dap').configurations.python, {
+      type = 'python',
+      request = 'attach',
+      connect = {
+        port = 5678,
+        host = '127.0.0.1',
+      },
+      mode = 'remote',
+      name = 'Container Attach Debug',
+      cwd = vim.fn.getcwd(),
+      pathMappings = {
+        {
+          localRoot = function()
+            return vim.fn.input('Local code folder > ', vim.fn.getcwd(), 'file')
+          end,
+          remoteRoot = function()
+            return vim.fn.input('Container code folder > ', '/', 'file')
+          end,
+        },
+      },
+    })
     -- Load vscode launch settings if present
     -- https://github.com/mfussenegger/nvim-dap/pull/48/commits/525b50a1b280d20f6717496860ead5d02fc897ad
     require('dap.ext.vscode').load_launchjs()
