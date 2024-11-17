@@ -52,6 +52,10 @@ if [ ! -d $HOME/repos/github.com/$ghuser ]; then
 	git clone git@github.com:$ghuser/obsidian.git $HOME/repos/github/$ghuser/obsidian
 fi
 
+# Link bash files to home
+ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
+ln -sTf "$PWD/.bash_aliases" "$HOME/.bash_aliases"
+
 # Run config setup script
 cd $HOME/repos/github.com/$ghuser/config
 source .bashrc
@@ -70,9 +74,6 @@ mkdir -p "$XDG_OPT_HOME"
 mkdir -p "$GOPATH"
 mkdir -p "$GOBIN"
 mkdir -p "$BASH_COMPLETIONS_DIR"
-
-# Create symbolic links between this repo and home
-ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
