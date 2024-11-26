@@ -2,7 +2,7 @@ return {
   'm4xshen/smartcolumn.nvim',
   config = function()
     require('smartcolumn').setup {
-      colorcolumn = '80',
+      colorcolumn = '88',
       scope = 'line',
       disabled_filetypes = {
         'help',
