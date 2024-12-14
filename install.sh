@@ -31,14 +31,13 @@ ssh-add $HOME/.ssh/id_ed25519
 
 echo
 cat $HOME/.ssh/id_ed25519.pub
-echo "Have you added the public key to your GitHub account? (y/n) "
 while true; do
+	echo "Have you added the public key to your GitHub account? (y/n) "
 	read -n 1 key
 	if [ $key == "y" ] || [ $key == "Y" ]; then
 		break
 	elif [ $key == "n" ] || [ $key == "N" ]; then
-		echo "You must add the public key to continue. Quitting..."
-		exit 0
+		echo "You must add the public key to continue."
 	fi
 done
 
@@ -49,7 +48,7 @@ if [ ! -d $HOME/repos/github.com/$ghuser ]; then
 	# dotfiles config repo
 	git clone git@github.com:$ghuser/config.git $HOME/repos/github.com/$ghuser/config
 	# obsidian vaults
-	git clone git@github.com:$ghuser/obsidian.git $HOME/repos/github/$ghuser/obsidian
+	git clone git@github.com:$ghuser/obsidian.git $HOME/repos/github.com/$ghuser/obsidian
 fi
 
 # Link bash files to home
@@ -90,29 +89,33 @@ if [ ! -d "$GOINSTALL" ]; then
 fi
 
 ### Flatpak
-if command -v flatpak &> /dev/null; then
+if ! command -v flatpak &> /dev/null; then
 	echo
 	echo "########## Installing Flatpak ##########"
 	sudo apt install -y flatpak
 	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
 
-if ! $(flatpak list --columns=name | grep 'GIMP'); then
+if ! $(flatpak list --columns=name | grep 'GNU Image Manipulation Program'); then
 	echo
 	echo "===> Installing GIMP flatpak..."
 	flatpak install -y https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref
 fi
 
 ### i3 window manager
-sudo apt -y install i3 nitrogen picom rofi pulseaudio
-ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
-ln -sTf "$PWD/picom" "$XDG_CONFIG_HOME/picom"
-ln -sTf "$PWD/nitrogen" "$XDG_CONFIG_HOME/nitrogen"
-ln -sTf "$PWD/rofi" "$XDG_CONFIG_HOME/rofi"
+if ! command -v i3 &> /dev/null; then
+	echo
+	echo "########## i3 ##########"
+	sudo apt -y install i3 nitrogen picom rofi pulseaudio
+	ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
+	ln -sTf "$PWD/picom" "$XDG_CONFIG_HOME/picom"
+	ln -sTf "$PWD/nitrogen" "$XDG_CONFIG_HOME/nitrogen"
+	ln -sTf "$PWD/rofi" "$XDG_CONFIG_HOME/rofi"
 
-chmod +x $PWD/i3/scripts/*
+	chmod +x $PWD/i3/scripts/*
 
-cp -r $PWD/wallpapers/* $HOME/Pictures/Wallpapers/
+	cp -r $PWD/wallpapers/* $HOME/Pictures/Wallpapers/
+fi
 
 ### NODE
 if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
@@ -121,6 +124,37 @@ if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 	source .bashrc
 	nvm install --lts
+fi
+
+### Docker
+if ! command -v docker &> /dev/null; then
+	echo
+	echo "########## Docker Engine ##########"
+	for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove -y $pkg; done
+
+	echo
+	echo "Setting up Docker APT repository..."
+	# Add Docker's official GPG key:
+	sudo apt-get -y update
+	sudo apt-get -y install ca-certificates curl
+	sudo install -m 0755 -d /etc/apt/keyrings
+	sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+	# Add the repository to Apt sources:
+	echo \
+	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt-get -y update
+
+	echo
+	echo "Installing latest version..."
+	sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+	echo
+	echo "Verifying successful installation..."
+	sudo docker run hello-world
 fi
 
 ### Bat (https://github.com/sharkdp/bat)
