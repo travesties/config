@@ -299,6 +299,20 @@ if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	cp extra/completions/alacritty.bash $BASH_COMPLETIONS_DIR/alacritty
 fi
 
+### Brave browser
+if [ ! command -v brave-browser &> /dev/null ]; then
+	echo
+	echo "########## Installing Brave Browser ##########"
+
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	
+	sudo apt -y update
+	
+	sudo apt -y install brave-browser
+fi
+
 source .bashrc
 cd $INSTALL_PATH
 
