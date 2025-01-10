@@ -92,15 +92,15 @@ return {
     require('dap-python').setup(vim.g.python3_host_prog)
 
     table.insert(require('dap').configurations.python, {
-      type = 'python',
+      name = 'Attach (Dockerized Python App)',
+      type = 'debugpy',
       request = 'attach',
-      connect = {
-        port = 5678,
-        host = '127.0.0.1',
-      },
       mode = 'remote',
-      name = 'Container Attach Debug',
       cwd = vim.fn.getcwd(),
+      connect = {
+        host = '127.0.0.1',
+        port = 5678,
+      },
       pathMappings = {
         {
           localRoot = function()
