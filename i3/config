@@ -182,13 +182,13 @@ workspace $ws4 output nonprimary
 
 # bind clients to workspaces
 assign [class="Alacritty"] $ws1
-assign [class="Brave-browser"] $ws2
+assign [class="firefox"] $ws2
 assign [class="obsidian"] $ws3
 assign [class="Gimp-2.10"] $ws4
 
 # open common apps on startup
 exec alacritty
-exec brave-browser
+exec firefox
 exec obsidian
 exec flatpak run org.gimp.GIMP
 
