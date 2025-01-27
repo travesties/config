@@ -609,7 +609,18 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         gopls = {},
-        pylsp = {},
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = {
+                  -- Use max line length set in black code formatter
+                  maxLineLength = 88,
+                },
+              },
+            },
+          },
+        },
         marksman = {},
         lua_ls = {
           -- cmd = {...},
