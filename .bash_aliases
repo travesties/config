@@ -20,6 +20,12 @@ alias myip='curl ipinfo.io/ip'
 # Fix dual-monitor setup
 alias dualmsetup='xrandr --auto && xrandr --output DP-2 --above DP-4'
 
+# Navigate to github repo root
+alias github='cd ~/repos/github.com/'
+
+# Navigate to my repo root
+alias myrepos='cd ~/repos/github.com/travesties/'
+
 # Navigate to dotfiles repo
 alias dotfiles='cd ~/repos/github.com/travesties/config/'
 
