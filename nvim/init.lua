@@ -607,21 +607,36 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
+      local FORMATTER_LINE_WIDTH = 88
+      local util = require 'lspconfig.util'
+
       local servers = {
-        gopls = {},
         pylsp = {
           settings = {
             pylsp = {
               plugins = {
                 pycodestyle = {
                   -- Use max line length set in black code formatter
-                  maxLineLength = 88,
+                  maxLineLength = FORMATTER_LINE_WIDTH,
                 },
               },
             },
           },
         },
-        marksman = {},
+        biome = {
+          root_dir = function(fname)
+            return util.root_pattern('biome.json', 'biome.jsonc')(fname)
+              or util.find_package_json_ancestor(fname)
+              or util.find_node_modules_ancestor(fname)
+              or util.find_git_ancestor(fname)
+          end,
+          formatter = {
+            indentStyle = 'space',
+            indentWidth = 2,
+            lineWidth = FORMATTER_LINE_WIDTH,
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
@@ -665,10 +680,11 @@ require('lazy').setup({
         'stylua', -- Used to format lua code
         'isort', -- Used to sort python imports
         'black', -- Used to format python code
-        'prettier', -- Used to format JavaScript code
-        'prettierd', -- prettier daemon for faster formatting
+        'ts_ls', -- TypeScript LSP
+        'gopls',
         'golines',
         'goimports-reviser',
+        'marksman',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
