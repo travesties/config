@@ -637,6 +637,14 @@ require('lazy').setup({
             lineWidth = FORMATTER_LINE_WIDTH,
           },
         },
+        ast_grep = {
+          root_dir = function(fname)
+            return util.root_pattern('sgconfig.yaml', 'sgconfig.yml')(fname)
+              or util.find_package_json_ancestor(fname)
+              or util.find_node_modules_ancestor(fname)
+              or util.find_git_ancestor(fname)
+          end,
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
@@ -680,11 +688,18 @@ require('lazy').setup({
         'stylua', -- Used to format lua code
         'isort', -- Used to sort python imports
         'black', -- Used to format python code
+        'django-template-lsp',
         'ts_ls', -- TypeScript LSP
+        'html', -- HTML LSP
+        'css-lsp',
         'gopls',
         'golines',
         'goimports-reviser',
         'marksman',
+        'dockerls',
+        'docker_compose_language_service',
+        'nginx_language_server',
+        'yamlls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
