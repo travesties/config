@@ -631,11 +631,6 @@ require('lazy').setup({
               or util.find_node_modules_ancestor(fname)
               or util.find_git_ancestor(fname)
           end,
-          formatter = {
-            indentStyle = 'space',
-            indentWidth = 2,
-            lineWidth = FORMATTER_LINE_WIDTH,
-          },
         },
         ast_grep = {
           root_dir = function(fname)
