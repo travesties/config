@@ -632,14 +632,6 @@ require('lazy').setup({
               or util.find_git_ancestor(fname)
           end,
         },
-        ast_grep = {
-          root_dir = function(fname)
-            return util.root_pattern('sgconfig.yaml', 'sgconfig.yml')(fname)
-              or util.find_package_json_ancestor(fname)
-              or util.find_node_modules_ancestor(fname)
-              or util.find_git_ancestor(fname)
-          end,
-        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
