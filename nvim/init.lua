@@ -610,6 +610,7 @@ require('lazy').setup({
 
       local util = require 'lspconfig.util'
 
+      -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
       local servers = {
         ruff = {
           -- Prefer project toml files. Fallback to ruff defaults.
@@ -668,20 +669,36 @@ require('lazy').setup({
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
+      -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        -- Lua
         'stylua', -- Used to format lua code
-        'django-template-lsp',
+
+        -- Javascript
         'ts_ls', -- TypeScript LSP
+
+        -- Markup/CSS
         'html', -- HTML LSP
+        'marksman',
         'css-lsp',
+
+        -- Python
+        'django-template-lsp',
+
+        -- Golang
         'gopls',
         'golines',
         'goimports-reviser',
-        'marksman',
+
+        -- Web server/HTTP
+        'nginx_language_server',
+
+        -- Containers/Orchestration
         'dockerls',
         'docker_compose_language_service',
-        'nginx_language_server',
+
+        -- Config
         'yamlls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
