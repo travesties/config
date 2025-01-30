@@ -611,21 +611,14 @@ require('lazy').setup({
       local util = require 'lspconfig.util'
 
       local servers = {
-        pylsp = {
-          settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = {
-                  -- Use max line length set in Black code formatter
-                  maxLineLength = 88,
-                  -- Ignore pycodestyle stylistic errors that conflict
-                  -- with Black code style.
-                  -- https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#configuration
-                  ignore = { 'E203', 'E701', 'E704', 'W503' },
-                },
-              },
-            },
-          },
+        ruff = {
+          -- Prefer project toml files. Fallback to ruff defaults.
+          root_dir = function(fname)
+            return util.root_pattern('pyproject.toml', 'ruff.toml')(fname)
+              or util.find_package_json_ancestor(fname)
+              or util.find_node_modules_ancestor(fname)
+              or util.find_git_ancestor(fname)
+          end,
         },
         biome = {
           -- Always use project biome config files. Fall back to biome
@@ -678,8 +671,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-        'isort', -- Used to sort python imports
-        'black', -- Used to format python code
         'django-template-lsp',
         'ts_ls', -- TypeScript LSP
         'html', -- HTML LSP
@@ -721,10 +712,10 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
+        python = { 'ruff' },
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
+        javascript = { 'biome' },
       },
     },
   },
