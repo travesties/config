@@ -608,7 +608,6 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
-      local FORMATTER_LINE_WIDTH = 88
       local util = require 'lspconfig.util'
 
       local servers = {
@@ -617,14 +616,20 @@ require('lazy').setup({
             pylsp = {
               plugins = {
                 pycodestyle = {
-                  -- Use max line length set in black code formatter
-                  maxLineLength = FORMATTER_LINE_WIDTH,
+                  -- Use max line length set in Black code formatter
+                  maxLineLength = 88,
+                  -- Ignore pycodestyle stylistic errors that conflict
+                  -- with Black code style.
+                  -- https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#configuration
+                  ignore = { 'E203', 'E701', 'E704', 'W503' },
                 },
               },
             },
           },
         },
         biome = {
+          -- Always use project biome config files. Fall back to biome
+          -- defaults if none are present.
           root_dir = function(fname)
             return util.root_pattern('biome.json', 'biome.jsonc')(fname)
               or util.find_package_json_ancestor(fname)
