@@ -711,7 +711,8 @@ require('lazy').setup({
         'docker_compose_language_service',
 
         -- Config
-        'yamlls',
+        'yamlls', -- YAML LSP
+        'taplo', -- TOML LSP
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
