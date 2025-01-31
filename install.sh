@@ -77,6 +77,15 @@ mkdir -p "$BASH_COMPLETIONS_DIR"
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
 
+# rust and cargo
+if ! command -v rustup &> /dev/null; then
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	source $HOME/.bashrc
+else
+	rustup override set stable
+	rustup update stable
+fi
+
 ### GO
 if [ ! -d "$GOINSTALL" ]; then
 	echo
@@ -245,6 +254,11 @@ if [ ! command -v marksman &> /dev/null ]; then
 	mv marksman $XDG_BIN_HOME/marksman
 fi
 
+# install taplo TOML lsp
+if [ ! command -v taplo &> /dev/null ]; then
+	cargo install --features lsp --locked taplo-cli
+fi
+
 ### Obsidian
 if [ ! command -v obsidian &> /dev/null ]; then
 	echo
@@ -260,15 +274,6 @@ ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
 if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	mkdir -p $REPOS/github.com/alacritty
 	cd $REPOS/github.com/alacritty
-
-	# install rust and cargo
-	if ! command -v rustup &> /dev/null; then
-		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  		source $HOME/.bashrc
-	else
-		rustup override set stable
-		rustup update stable
-	fi
 	
 	# install dependencies
 	sudo apt -y install gzip scdoc cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
