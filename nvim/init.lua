@@ -621,6 +621,18 @@ require('lazy').setup({
               or util.find_git_ancestor(fname)
           end,
         },
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                -- ruff is the preferred linter and formatter
+                pycodestyle = { enabled = false },
+                pyflakes = { enabled = false },
+                autopep8 = { enabled = false },
+              },
+            },
+          },
+        },
         biome = {
           -- Always use project biome config files. Fall back to biome
           -- defaults if none are present.
