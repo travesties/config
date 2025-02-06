@@ -26,6 +26,12 @@ exec --no-startup-id dex --autostart --environment i3
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
+# Disable Display Power Management Signal (DPMS) Engery Star settings
+exec_always --no-startup-id xset -dpms
+# Suspend system after 60 min of inactivity (cancel exiting autolock timer)
+exec_always --no-startup-id xautolock -exit
+exec_always --no-startup-id xautolock -time 60 -locker "systemctl suspend"
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -34,11 +40,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Atuomatically start up picom
+# Automatically start up picom
 exec_always --no-startup-id picom
 
 # Automatically set up wallpapers on startup/login
-exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id nitrogen --restore
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

@@ -115,7 +115,7 @@ fi
 if ! command -v i3 &> /dev/null; then
 	echo
 	echo "########## i3 ##########"
-	sudo apt -y install i3 nitrogen picom rofi pulseaudio
+	sudo apt -y install i3 nitrogen picom rofi pulseaudio xautolock
 	ln -sTf "$PWD/i3" "$XDG_CONFIG_HOME/i3"
 	ln -sTf "$PWD/picom" "$XDG_CONFIG_HOME/picom"
 	ln -sTf "$PWD/nitrogen" "$XDG_CONFIG_HOME/nitrogen"
