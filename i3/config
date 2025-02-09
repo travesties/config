@@ -36,6 +36,10 @@ exec_always --no-startup-id xautolock -time 60 -locker "systemctl suspend"
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+# Run heartbeat script that sets screen saver functionality based on
+# video playback status.
+exec --no-startup-id $HOME/.config/i3/scripts/playback-check.sh &
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
