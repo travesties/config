@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Simple image snip tool saves snip and copies to clipboard.
+# Accepts up to one filename argument (sans extention).
+# Filename defaults to snip_<timestamp>.png
+
+snip_path=$HOME/Documents/screenshots/${1:-snip_$(date +%s)}.png
+scrot -f -o -s -z -F $snip_path && \
+    xclip -selection clipboard -t image/png -i $snip_path
+
+notify-send "Snip Saved!" "$snip_path"
+echo "$snip_path"
