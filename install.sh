@@ -77,6 +77,10 @@ mkdir -p "$BASH_COMPLETIONS_DIR"
 # Install all necessary packages for workflow setup
 sudo apt -y install man-db xclip python3 python3-pip python3-venv make unzip ripgrep fontconfig rlwrap xsel
 
+# Install custom scripts
+chmod +x $PWD/scripts/
+ln -sf $PWD/scripts/* $XDG_BIN_HOME/
+
 # rust and cargo
 if ! command -v rustup &> /dev/null; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
