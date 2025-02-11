@@ -2,7 +2,7 @@
 
 DISCORD_DEB_PATH=~/Downloads/discord.deb
 
-echo "Installing discord latest stable..."
+echo "Getting discord latest stable..."
 
 if command -v discord &> /dev/null; then
     sudo apt -y remove discord
