@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Use first argument as the interval timer. Default to 55 seconds.
 while sleep "${1:-55}"
