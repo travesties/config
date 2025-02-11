@@ -32,9 +32,13 @@ exec_always --no-startup-id xset -dpms
 exec_always --no-startup-id xautolock -exit
 exec_always --no-startup-id xautolock -time 60 -locker "systemctl suspend"
 
+# Pixelized lock screen
+set $lockPath $HOME/.config/i3/scripts/lock.sh
+bindsym --release $mod+Ctrl+l exec --no-startup-id $lockPath
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $lockPath
 
 # Run heartbeat script that sets screen saver functionality based on
 # video playback status.
@@ -241,11 +245,9 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $Locker i3lock && sleep 1
-
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker && amixer set Master mute, mode "default"
+    bindsym l exec --no-startup-id sh $lockPath && sleep 1 && amixer set Master mute, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym h exec --no-startup-id systemctl hibernate, mode "default"
@@ -267,7 +269,4 @@ bar {
         tray_output primary
 }
 
-# Pixelized lock screen
-set $i3lockwall sh ~/.config/i3/scripts/lock.sh
-bindsym $mod+Ctrl+l exec --no-startup-id $i3lockwall
 
