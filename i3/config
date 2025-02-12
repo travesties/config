@@ -245,8 +245,9 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $mode_system System (c) toggle caffeine, (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
+    bindsym c exec --no-startup-id $HOME/.config/i3/scripts/toggle-screensaver.sh, mode "default"
     bindsym l exec --no-startup-id sh $lockPath && sleep 1 && amixer set Master mute, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
