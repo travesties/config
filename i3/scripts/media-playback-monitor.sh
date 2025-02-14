@@ -4,13 +4,13 @@
 while sleep "${1:-55}"
 do
     # Build list of dbus services that implement the org.mpris.MediaPlayer2 interface
-    media_players=( $(dbus-send \
+    media_players=$(dbus-send \
         --print-reply \
         --dest=org.freedesktop.DBus  \
         /org/freedesktop/DBus \
         org.freedesktop.DBus.ListNames \
         | egrep -o '"org.mpris.MediaPlayer2.*"' \
-        | sed 's/"//g'))
+        | sed 's/"//g')
 
     # Search media players for a playback status of "Playing"
     for player in $media_players; do
