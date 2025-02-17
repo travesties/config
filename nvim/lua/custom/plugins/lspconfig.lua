@@ -226,6 +226,12 @@ return { -- LSP Configuration & Plugins
       'golines',
       'goimports-reviser',
 
+      -- Bash
+      'bashls',
+      'shellcheck',
+      'shfmt',
+      'bash-debug-adapter',
+
       -- Web server/HTTP
       'nginx_language_server',
 
