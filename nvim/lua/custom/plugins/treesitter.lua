@@ -15,6 +15,7 @@ return { -- Highlight, edit, and navigate code
         'vimdoc',
 
         'c',
+        'c_sharp',
         'go',
         'lua',
         'python',

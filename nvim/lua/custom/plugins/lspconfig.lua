@@ -232,6 +232,10 @@ return { -- LSP Configuration & Plugins
       'shfmt',
       'bash-debug-adapter',
 
+      -- C#
+      'omnisharp',
+      'csharpier',
+
       -- Web server/HTTP
       'nginx_language_server',
 
