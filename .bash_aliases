@@ -29,6 +29,8 @@ alias myrepos='cd ~/repos/github.com/travesties/'
 # Navigate to dotfiles repo
 alias dotfiles='cd ~/repos/github.com/travesties/config/'
 
+alias glados='ssh travis@192.168.1.12'
+
 # Make dir and navigate to dir
 mkcd()
 {
