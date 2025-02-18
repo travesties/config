@@ -198,13 +198,11 @@ workspace $ws4 output nonprimary
 assign [class="Alacritty"] $ws1
 assign [class="firefox"] $ws2
 assign [class="obsidian"] $ws3
-assign [class="Gimp-2.10"] $ws4
 
 # open common apps on startup
 exec alacritty
 exec firefox
 exec obsidian
-exec flatpak run org.gimp.GIMP
 
 # bind wacom one drawing surface to nonprimary monitor with Gimp
 set $wacomStylus "Wacom One by Wacom S Pen stylus"
