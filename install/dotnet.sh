@@ -11,7 +11,7 @@ wget $packages_url -O "$NET_DEB_PATH"
 sudo dpkg -i "$NET_DEB_PATH"
 
 sudo apt-get update &&
-  sudo apt-get install -y dotnet-sdk-9.0
+  sudo apt-get install -y dotnet-sdk-9.0 dotnet-sdk-8.0
 
 echo "done"
 exit 0
