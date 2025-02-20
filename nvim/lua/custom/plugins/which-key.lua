@@ -13,6 +13,8 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>l', group = '[L]azy' },
       { '<leader>p', group = '[P]roject' },
+      { '<leader>m', group = '[M]ini' },
+      { '<leader>ms', group = '[M]ini [S]urround' },
     }
   end,
   keys = {
