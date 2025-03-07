@@ -13,5 +13,8 @@ sudo dpkg -i "$NET_DEB_PATH"
 sudo apt-get update &&
   sudo apt-get install -y dotnet-sdk-9.0 dotnet-sdk-8.0
 
+# https://github.com/dotnet-outdated/dotnet-outdated
+dotnet tool install --global dotnet-outdated-tool
+
 echo "done"
 exit 0
