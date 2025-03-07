@@ -35,6 +35,8 @@ return { -- Autocompletion
     local luasnip = require 'luasnip'
     luasnip.config.setup {}
 
+    cmp.register_source('easy-dotnet', require('easy-dotnet').package_completion_source)
+
     cmp.setup {
       snippet = {
         expand = function(args)
@@ -86,6 +88,7 @@ return { -- Autocompletion
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        { name = 'easy-dotnet' },
       },
     }
   end,

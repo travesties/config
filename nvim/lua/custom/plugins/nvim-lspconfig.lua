@@ -233,7 +233,6 @@ return { -- LSP Configuration & Plugins
       'bash-debug-adapter',
 
       -- C#
-      'omnisharp',
       'csharpier',
 
       -- Web server/HTTP

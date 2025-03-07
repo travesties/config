@@ -91,8 +91,9 @@ return {
     -- Install language dap configs
     require('dap-go').setup()
     require('dap-python').setup(vim.g.python3_host_prog)
+    require('kickstart.plugins.dap-netcore').register_net_dap()
 
-    table.insert(require('dap').configurations.python, {
+    table.insert(dap.configurations.python, {
       name = 'Attach (Dockerized Python App)',
       type = 'debugpy',
       request = 'attach',

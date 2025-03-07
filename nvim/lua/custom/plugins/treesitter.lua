@@ -19,11 +19,14 @@ return { -- Highlight, edit, and navigate code
         'go',
         'lua',
         'python',
+        'sql',
 
         'css',
         'html',
         'javascript',
         'jsdoc',
+        'json',
+        'xml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
