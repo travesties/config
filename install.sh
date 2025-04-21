@@ -18,7 +18,7 @@ mkdir -p $HOME/.ssh && touch $HOME/.ssh/known_hosts
 
 # Only keyscan github.com if it hasn't already been done
 if [ ! -s $HOME/.ssh/known_hosts ]; then
-	ssh-keyscan github.com >> $HOME/.ssh/known_hosts
+	ssh-keyscan github.com >>$HOME/.ssh/known_hosts
 fi
 
 # Create ssh key if none exist
@@ -44,19 +44,19 @@ done
 # Create github.com repository structure and clone all necessary repos
 if [ ! -d $HOME/repos/github.com/$ghuser ]; then
 	mkdir -p $HOME/repos/github.com/$ghuser
-	
+
 	# dotfiles config repo
 	git clone git@github.com:$ghuser/config.git $HOME/repos/github.com/$ghuser/config
 	# obsidian vaults
 	git clone git@github.com:$ghuser/obsidian.git $HOME/repos/github.com/$ghuser/obsidian
 fi
 
+cd $HOME/repos/github.com/$ghuser/config
+
 # Link bash files to home
 ln -sTf "$PWD/.bashrc" "$HOME/.bashrc"
 ln -sTf "$PWD/.bash_aliases" "$HOME/.bash_aliases"
 
-# Run config setup script
-cd $HOME/repos/github.com/$ghuser/config
 source .bashrc
 
 # Set up script for installing my workflow on a new machine.
@@ -82,7 +82,7 @@ chmod +x $PWD/scripts/
 ln -sf $PWD/scripts/* $XDG_BIN_HOME/
 
 # rust and cargo
-if ! command -v rustup &> /dev/null; then
+if ! command -v rustup &>/dev/null; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	source $HOME/.bashrc
 else
@@ -97,12 +97,12 @@ if [ ! -d "$GOINSTALL" ]; then
 	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
 	tar -C "$HOME/.local" -xzf go1.22.1.linux-amd64.tar.gz
 	rm -f go1.22.1.linux-amd64.tar.gz
-	
+
 	go install github.com/go-delve/delve/cmd/dlv@latest
 fi
 
 ### Flatpak
-if ! command -v flatpak &> /dev/null; then
+if ! command -v flatpak &>/dev/null; then
 	echo
 	echo "########## Installing Flatpak ##########"
 	sudo apt install -y flatpak
@@ -116,7 +116,7 @@ if ! $(flatpak list --columns=name | grep 'GNU Image Manipulation Program'); the
 fi
 
 ### i3 window manager
-if ! command -v i3 &> /dev/null; then
+if ! command -v i3 &>/dev/null; then
 	echo
 	echo "########## i3 ##########"
 	sudo apt -y install i3 nitrogen picom rofi pulseaudio xautolock
@@ -140,7 +140,7 @@ if [ ! -d "$XDG_CONFIG_HOME/nvm" ]; then
 fi
 
 ### Docker
-if ! command -v docker &> /dev/null; then
+if ! command -v docker &>/dev/null; then
 	echo
 	echo "########## Docker Engine ##########"
 	for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove -y $pkg; done
@@ -156,9 +156,9 @@ if ! command -v docker &> /dev/null; then
 
 	# Add the repository to Apt sources:
 	echo \
-	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 	sudo apt-get -y update
 
 	echo
@@ -175,7 +175,7 @@ sudo apt -y install bat
 
 # Due to name conflict, bat may be installed as batcat.
 # If this happens, create a bat symlink
-if command -v batcat &> /dev/null; then
+if command -v batcat &>/dev/null; then
 	ln -sf /usr/bin/batcat $XDG_BIN_HOME/bat
 fi
 
@@ -189,10 +189,10 @@ if [ ! -d "$XDG_CONFIG_HOME/tmux/plugins/tpm" ]; then
 	git clone https://github.com/tmux-plugins/tpm $XDG_CONFIG_HOME/tmux/plugins/tpm
 
 	# Install tpm plugins by starting a detached server and running the install script
-	tmux start-server && \
-		tmux new-session -d && \
-		sleep 1 && \
-		$XDG_CONFIG_HOME/tmux/plugins/tpm/scripts/install_plugins.sh && \
+	tmux start-server &&
+		tmux new-session -d &&
+		sleep 1 &&
+		$XDG_CONFIG_HOME/tmux/plugins/tpm/scripts/install_plugins.sh &&
 		tmux kill-server
 fi
 
@@ -202,7 +202,7 @@ if [[ $(ls $XDG_DATA_HOME/fonts/HackNerdFont* 2>/dev/null) == "" ]]; then
 	echo "########## Installing Hack Nerd Font ##########"
 	curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
 	unzip Hack.zip -d Hack
-	
+
 	mkdir -p $XDG_DATA_HOME/fonts
 	mv Hack/*.ttf $XDG_DATA_HOME/fonts
 	fc-cache -f -v
@@ -234,10 +234,10 @@ ln -sTf "$PWD/nvim" "$XDG_CONFIG_HOME/nvim"
 if [ ! -d "$XDG_OPT_HOME/nvim-linux64" ]; then
 	echo
 	echo "########## Installing Neovim ##########"
-	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-	rm -rf $XDG_OPT_HOME/nvim-linux64
-	tar -C $XDG_OPT_HOME -xzf nvim-linux64.tar.gz
-	rm nvim-linux64.tar.gz
+	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+	rm -rf $XDG_OPT_HOME/nvim-linux-x86_64
+	tar -C $XDG_OPT_HOME -xzf nvim-linux-x86_64.tar.gz
+	rm nvim-linux-x86_64.tar.gz
 fi
 
 # set up python virtual environment for nvim
@@ -252,19 +252,19 @@ if [ ! -d "nvim/nvim_pyenv" ]; then
 fi
 
 # install marksman markdown lsp
-if [ ! command -v marksman &> /dev/null ]; then
+if [ ! command -v marksman ] &>/dev/null; then
 	curl -o marksman https://github.com/artempyanykh/marksman/releases/download/latest/marksman-linux-arm64
 	chmod +x marksman
 	mv marksman $XDG_BIN_HOME/marksman
 fi
 
 # install taplo TOML lsp
-if [ ! command -v taplo &> /dev/null ]; then
+if [ ! command -v taplo ] &>/dev/null; then
 	cargo install --features lsp --locked taplo-cli
 fi
 
 ### Obsidian
-if [ ! command -v obsidian &> /dev/null ]; then
+if [ ! command -v obsidian ] &>/dev/null; then
 	echo
 	echo "########## Installing Obsidian ##########"
 	curl -LO obsidian https://github.com/obsidianmd/obsidian-releases/releases/download/v1.6.3/Obsidian-1.6.3-arm64.AppImage
@@ -278,47 +278,47 @@ ln -sTf "$PWD/alacritty" "$XDG_CONFIG_HOME/alacritty"
 if [ ! -d "$REPOS/github.com/alacritty" ]; then
 	mkdir -p $REPOS/github.com/alacritty
 	cd $REPOS/github.com/alacritty
-	
+
 	# install dependencies
 	sudo apt -y install gzip scdoc cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
-	
+
 	# download Alacritty source
 	git clone https://github.com/alacritty/alacritty.git
 	cd alacritty
-	
+
 	# build release
 	cargo build --release
-	
+
 	# Create desktop entry (NOTE: you will need to log out and log in to find the start up menu option)
 	cp target/release/alacritty $XDG_BIN_HOME
 	sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
 	sudo desktop-file-install extra/linux/Alacritty.desktop
 	sudo update-desktop-database
-	
+
 	# install man pages
 	mkdir -p $XDG_DATA_HOME/man/man1
 	mkdir -p $XDG_DATA_HOME/man/man5
-	
-	scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty.1.gz > /dev/null
-	scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty-msg.1.gz > /dev/null
-	scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty.5.gz > /dev/null
-	scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty-bindings.5.gz > /dev/null
-	
+
+	scdoc <extra/man/alacritty.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty.1.gz >/dev/null
+	scdoc <extra/man/alacritty-msg.1.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man1/alacritty-msg.1.gz >/dev/null
+	scdoc <extra/man/alacritty.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty.5.gz >/dev/null
+	scdoc <extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee $XDG_DATA_HOME/man/man5/alacritty-bindings.5.gz >/dev/null
+
 	# install bash completions
 	cp extra/completions/alacritty.bash $BASH_COMPLETIONS_DIR/alacritty
 fi
 
 ### Brave browser
-if [ ! command -v brave-browser &> /dev/null ]; then
+if [ ! command -v brave-browser ] &>/dev/null; then
 	echo
 	echo "########## Installing Brave Browser ##########"
 
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-	
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	
+
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
 	sudo apt -y update
-	
+
 	sudo apt -y install brave-browser
 fi
 

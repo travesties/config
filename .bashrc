@@ -125,7 +125,7 @@ export CONFIG="$GHREPOS/config"
 export SCRIPTS="$CONFIG/scripts"
 
 # Neovim
-export PATH="$PATH:$XDG_OPT_HOME/nvim-linux64/bin"
+export PATH="$PATH:$XDG_OPT_HOME/nvim-linux-x86_64/bin"
 
 # Golang
 export GOINSTALL="$HOME/.local/go"
